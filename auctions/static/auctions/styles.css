@@ -1,0 +1,125 @@
+body {
+    padding: 10px;
+}
+
+ul {
+    list-style-type: none;
+}
+
+.create-listing-form {
+    display: flex;
+    flex-direction: column;
+    font-size: 16px;
+    margin-bottom: 20px;
+    max-height: 670px;
+}
+
+.listing-small-image {
+    width: 75px;
+    padding: 10px;
+}
+
+.listing-medium-image {
+    width: 150px;
+    padding: 10px;
+}
+
+.listing-large-image {
+    width: 300px;
+    padding: 10px;
+}
+
+.listing-main-area-outer {
+    display: flex;
+    flex-direction: row;
+}
+
+.listing-main-area-left {
+    border: 1px solid lightgray;
+    margin-right: 30px;
+}
+
+.listing-main-area-right {
+    display: flex;
+    flex-direction: column;
+}
+
+.description {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.listing-info {
+    display: flex;
+    flex-direction: column;
+    margin-left: 50px;
+    line-height: 35px;
+}
+
+.listing-title-large {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.listing-title-small {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.listing {
+    border-top: 1px solid gray;
+    display: flex;
+}
+
+.current-bid {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.winner-msg {
+    background-color: #c9fca9;
+    padding-left: 10px;
+    margin-bottom: 5px;
+}
+
+.error-msg {
+    background-color: #fc9f9f;
+    padding-left: 10px;
+    margin-bottom: 5px;
+}
+
+.place-bid-btn {
+    background-color: #5270de;
+    color: white;
+    border-color: #5270de;
+    margin-bottom: 30px;
+}
+
+.close-listing-btn {
+    background-color: red;
+    color: white;
+    border-color: red;
+    margin-bottom: 30px;
+}
+
+.comment-box-area {
+    margin-bottom: 50px;
+    margin-top: 30px;
+}
+
+.comment-area-header {
+    margin-top: 10px;
+    font-weight: bold;
+    width: 100%;
+    border-bottom: 1px solid #f5f2f2;
+}
+
+.comment-area-body {
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.comment-btn {
+    float: right;
+}

@@ -1,0 +1,122 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+    {% if not listing.active and is_winner %}
+        <div class="winner-msg">
+            You won this auction.
+        </div>
+    {% endif %}
+
+    <h2>{{ listing.title }}</h2>
+
+    {% comment %}
+    Display "Remove from watchlist" if the listing is in the user's watchlist.
+    Otherwise display "Add to watchlist" if the listing is active.
+    {% endcomment %}
+    {% if in_watchlist %}
+        <a href="{% url 'edit_watchlist' listing_id=listing.id %}">Remove from watchlist</a>
+    {% elif listing.active %}
+        <a href="{% url 'edit_watchlist' listing_id=listing.id %}">Add to watchlist</a>
+    {% endif %}
+
+    <div class="listing-main-area-outer">
+        {% if listing.url %}
+            <div class="listing-main-area-left">
+                <img class="listing-large-image" src={{ listing.url }}>
+            </div>
+        {% endif %}
+
+        <div class="listing-main-area-right">
+            {% comment %}
+            Check if listing is active
+            {% endcomment %}
+            {% if listing.active %}
+                <div class="current-bid">
+                    Current bid: ${{ listing.current_bid }}
+                </div>
+
+                {% if error %}
+                    {% comment %}
+                    Display an error message if the placed bid is less than the min required bid
+                    {% endcomment %}
+                    <div class="error-msg">
+                        Bid must be greater than or equal to ${{ min_required_bid }}
+                    </div>
+                {% endif %}
+
+                {% if is_creator %}
+                    {% comment %}
+                    Display the closed listing button if the user is the creator of the listing
+                    {% endcomment %}
+                    <form action="{% url 'close_listing' listing_id=listing.id %}" method="POST">
+                        {% csrf_token %}
+                        <input type="submit" class="close-listing-btn" value="Close Listing">
+                    </form>
+                {% else %}
+                    {% comment %}
+                    If the user is not the creator of the listing, display the bidding form
+                    {% endcomment %}
+                    <form action="{% url 'update_price' listing_id=listing.id %}" method="POST">
+                        {% csrf_token %}
+                        {{ bidding_form }}
+                        <input type="submit" class="place-bid-btn" value="Place Bid">
+                    </form>
+                {% endif %}
+
+            {% else %}
+                {% comment %}
+                If the listing is not active then only display the price
+                {% endcomment %}
+                <div>
+                    Price: ${{ listing.current_bid }}
+                </div>
+            {% endif %}
+
+            <div class="description">
+                Description
+            </div>
+            <div>
+                {{ listing.description }}
+            </div>
+
+        </div>
+    </div>
+
+    {% comment %}
+    Display the comment form
+    {% endcomment %}
+    <div class="comment-box-area">
+        <h3>Leave a comment</h3>
+        <div>
+            <form class="comment-area" action="{% url 'create_comment' listing_id=listing.id %}" method="POST">
+                {% csrf_token %}
+                {{ comment_form.as_p }}
+                <div class="comment-btn">
+                    <input type="submit" class="btn btn-primary" value="Comment">
+                </div>
+            </form>
+        </div>
+    </div>
+
+    {% comment %}
+    Display the comments if the listing has any comments
+    {% endcomment %}
+    {% if comments.count > 1 %}
+        <h2>{{ comments.count }} comments</h2>
+    {% elif comments.count > 0 %}
+        <h2>{{ comments.count }} comment</h2>
+    {% endif %}
+
+    {% for comment in comments %}
+        <div>
+            <div class="comment-area-header">
+                {{ comment.user }} on {{ comment.date_posted }}
+            </div>
+            <div class="comment-area-body">
+                {{ comment.content | linebreaks }}
+            </div>
+        </div>
+    {% endfor %}
+
+{% endblock %}
